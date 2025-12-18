@@ -39,45 +39,31 @@ while (isInput):
                 cells.append("E")
         print(" ".join(cells))    
                
-    # Movement
+    # movement
     T = input().lower()
+    # movement logic
+    dy, dx = 0, 0
     if (T == "left"):
-        if player_position_x - 1 < 0:
-            print("Out of Bounds")
-        elif maze[player_position_y][player_position_x - 1] == 1:
-            print("Wall")
-        else:
-            player_position_x = player_position_x - 1
-            player_position = (player_position_x, player_position_y)
-            print(player_position)
+        dx = -1
     if (T == "right"):
-        if player_position_x + 1 >= len(maze[player_position_y]):
-            print("Out of Bounds")
-        elif maze[player_position_y][player_position_x + 1] == 1:
-            print("Wall")
-        else:
-            player_position_x = player_position_x + 1
-            player_position = (player_position_x, player_position_y)
-            print(player_position)
+        dx = 1
     if (T == "up"):
-        if player_position_y - 1 < 0:
-            print("Out of Bounds")
-        elif maze[player_position_y - 1][player_position_x] == 1:
-            print("Wall")
-        else:
-            player_position_y = player_position_y - 1
-            player_position = (player_position_x, player_position_y)
-            print(player_position)
+        dy = -1
     if (T == "down"):
-        if player_position_y + 1 >= len(maze):
-            print("Out of Bounds")
-        elif maze[player_position_y + 1][player_position_x] == 1:
-            print("Wall")
-        else:
-            player_position_y = player_position_y + 1
-            player_position = (player_position_x, player_position_y)
-            print(player_position)
-    # Special Cells
+        dy = 1
+    # boundary and wall check
+    if (player_position_y + dy < 0 or player_position_y + dy >= len(maze) or player_position_x + dx < 0 or player_position_x + dx >= len(maze[player_position_y])):
+        print("Out of Bounds")
+        continue
+    if (maze[player_position_y + dy][player_position_x + dx] == 1):
+        print("Wall")
+        continue
+    # position update
+    player_position_x += dx
+    player_position_y += dy
+    player_position = (player_position_x, player_position_y)
+    print(player_position)
+    # special cells check
     if maze[player_position_y][player_position_x] == 2:
         print("You Can't Leave")
     if maze[player_position_y][player_position_x] == 3:
