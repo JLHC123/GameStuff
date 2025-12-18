@@ -17,8 +17,7 @@ for y, row in enumerate(maze):
             break
     if player_position is not None:
         break
-        
-print(player_position)
+    
 player_position_x, player_position_y = player_position
 isInput = True
 
@@ -39,7 +38,6 @@ while (isInput):
                 cells.append("E")
         print(" ".join(cells))    
                
-    # movement
     T = input().lower()
     # movement logic
     dy, dx = 0, 0
@@ -51,6 +49,7 @@ while (isInput):
         dy = -1
     if (T == "down"):
         dy = 1
+
     # boundary and wall check
     if (player_position_y + dy < 0 or player_position_y + dy >= len(maze) or player_position_x + dx < 0 or player_position_x + dx >= len(maze[player_position_y])):
         print("Out of Bounds")
@@ -58,11 +57,12 @@ while (isInput):
     if (maze[player_position_y + dy][player_position_x + dx] == 1):
         print("Wall")
         continue
+    
     # position update
     player_position_x += dx
     player_position_y += dy
     player_position = (player_position_x, player_position_y)
-    print(player_position)
+    
     # special cells check
     if maze[player_position_y][player_position_x] == 2:
         print("You Can't Leave")
