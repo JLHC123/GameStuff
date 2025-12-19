@@ -1,3 +1,5 @@
+import random
+
 print("Game Start")
 # generic maze
 maze = [
@@ -7,6 +9,17 @@ maze = [
     [1, 0, 0, 0, 1],
     [1, 1, 2, 1, 1]
 ]
+
+# make random maze
+n = random.randint(5, 10)
+ran_maze = [[1] * n for _ in range(n)]
+
+for y, row in enumerate(ran_maze):
+    cells = []
+    for x, cell in enumerate(row):
+        cells.append(f"{cell}")
+    print(" ".join(cells))
+
 
 player_position = None
 # finding our player start position
