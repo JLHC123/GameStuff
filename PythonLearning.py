@@ -11,25 +11,44 @@ maze = [
 ]
 
 # make random maze
-n = random.randint(5, 10)
+n = 5
 random_maze = [[1] * n for _ in range(n)]
 
 # select random starting point from just the outer walls
-edge = random.choice(["top", "bottom", "left", "right"])
-if edge == "top":
+edges = ["top", "bottom", "left", "right"]
+starting_edge = random.choice(edges)
+if starting_edge == "top":
     random_starting_x = random.randint(1, n - 2)
     random_starting_y = 0
-elif edge == "bottom": 
+elif starting_edge == "bottom": 
     random_starting_x = random.randint(1, n - 2)
     random_starting_y = n - 1
-elif edge == "left": 
+elif starting_edge == "left": 
     random_starting_x = 0
     random_starting_y = random.randint(1, n - 2)
-elif edge == "right": 
+elif starting_edge == "right": 
     random_starting_x = n - 1
     random_starting_y = random.randint(1, n - 2)
-
 random_maze[random_starting_y][random_starting_x] = 2
+
+edges.remove(starting_edge) # remove the starting edge from the list
+
+# select random ending point from the remaining outer walls
+ending_edge = random.choice(edges)
+if ending_edge == "top":
+    random_ending_x = random.randint(1, n - 2)
+    random_ending_y = 0
+elif ending_edge == "bottom": 
+    random_ending_x = random.randint(1, n - 2)
+    random_ending_y = n - 1
+elif ending_edge == "left": 
+    random_ending_x = 0
+    random_ending_y = random.randint(1, n - 2)
+elif ending_edge == "right": 
+    random_ending_x = n - 1
+    random_ending_y = random.randint(1, n - 2)
+random_maze[random_ending_y][random_ending_x] = 3
+
 
 # print random maze
 for y, row in enumerate(random_maze):
@@ -37,8 +56,6 @@ for y, row in enumerate(random_maze):
     for x, cell in enumerate(row):
         cells.append(f"{cell}")
     print(" ".join(cells))
-    
-
 
 player_position = None
 # finding our player start position
