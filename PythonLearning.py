@@ -12,13 +12,28 @@ maze = [
 
 # make random maze
 n = random.randint(5, 10)
-ran_maze = [[1] * n for _ in range(n)]
+random_maze = [[1] * n for _ in range(n)]
 
-for y, row in enumerate(ran_maze):
+# select random starting point from just the outer walls
+random_starting_x = random.randint(0, n - 1)
+if random_starting_x == 0 or random_starting_x == n - 1:
+    random_starting_y = random.randint(1, n - 2)
+else:
+    zero_or_one = random.randint(0, 1)
+    if zero_or_one == 0:
+        random_starting_y = 0
+    else:
+        random_starting_y = n - 1
+
+random_maze[random_starting_y][random_starting_x] = 2
+
+# print random maze
+for y, row in enumerate(random_maze):
     cells = []
     for x, cell in enumerate(row):
         cells.append(f"{cell}")
     print(" ".join(cells))
+    
 
 
 player_position = None
@@ -63,10 +78,16 @@ while (isInput):
     if (T == "down"):
         dy = 1
 
-    # boundary and wall check
-    if (player_position_y + dy < 0 or player_position_y + dy >= len(maze) or player_position_x + dx < 0 or player_position_x + dx >= len(maze[player_position_y])):
+    # boundary check
+    if (
+        player_position_y + dy < 0 or 
+        player_position_y + dy >= len(maze) or 
+        player_position_x + dx < 0 or 
+        player_position_x + dx >= len(maze[player_position_y])
+        ):
         print("Out of Bounds")
         continue
+    # wall check
     if (maze[player_position_y + dy][player_position_x + dx] == 1):
         print("Wall")
         continue
