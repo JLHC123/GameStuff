@@ -15,15 +15,19 @@ n = random.randint(5, 10)
 random_maze = [[1] * n for _ in range(n)]
 
 # select random starting point from just the outer walls
-random_starting_x = random.randint(0, n - 1)
-if random_starting_x == 0 or random_starting_x == n - 1:
+edge = random.choice(["top", "bottom", "left", "right"])
+if edge == "top":
+    random_starting_x = random.randint(1, n - 2)
+    random_starting_y = 0
+elif edge == "bottom": 
+    random_starting_x = random.randint(1, n - 2)
+    random_starting_y = n - 1
+elif edge == "left": 
+    random_starting_x = 0
     random_starting_y = random.randint(1, n - 2)
-else:
-    zero_or_one = random.randint(0, 1)
-    if zero_or_one == 0:
-        random_starting_y = 0
-    else:
-        random_starting_y = n - 1
+elif edge == "right": 
+    random_starting_x = n - 1
+    random_starting_y = random.randint(1, n - 2)
 
 random_maze[random_starting_y][random_starting_x] = 2
 
@@ -71,11 +75,11 @@ while (isInput):
     dy, dx = 0, 0
     if (T == "left"):
         dx = -1
-    if (T == "right"):
+    elif (T == "right"):
         dx = 1
-    if (T == "up"):
+    elif (T == "up"):
         dy = -1
-    if (T == "down"):
+    elif (T == "down"):
         dy = 1
 
     # boundary check
