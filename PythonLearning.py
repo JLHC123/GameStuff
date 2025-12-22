@@ -49,6 +49,12 @@ elif ending_edge == "right":
     random_ending_y = random.randint(1, n - 2)
 random_maze[random_ending_y][random_ending_x] = 3
 
+# turn all non edge cells into empty space 
+for y in range(1, n - 1):
+    for x in range(1, n - 1):
+        random_maze[y][x] = 0
+
+
 
 # print random maze
 for y, row in enumerate(random_maze):
