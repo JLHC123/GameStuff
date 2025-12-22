@@ -1,17 +1,17 @@
 import random
 
 print("Game Start")
-# generic maze
-maze = [
-    [1, 1, 3, 1, 1],
-    [1, 1, 0, 0, 1],
-    [1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 2, 1, 1]
-]
+# # generic maze
+# maze = [
+#     [1, 1, 3, 1, 1],
+#     [1, 1, 0, 0, 1],
+#     [1, 0, 1, 0, 1],
+#     [1, 0, 0, 0, 1],
+#     [1, 1, 2, 1, 1]
+# ]
 
 # make random maze
-n = 5
+n = random.randint(5, 10)
 random_maze = [[1] * n for _ in range(n)]
 
 # select random starting point from just the outer walls
@@ -54,8 +54,6 @@ for y in range(1, n - 1):
     for x in range(1, n - 1):
         random_maze[y][x] = 0
 
-
-
 # print random maze
 for y, row in enumerate(random_maze):
     cells = []
@@ -65,7 +63,7 @@ for y, row in enumerate(random_maze):
 
 player_position = None
 # finding our player start position
-for y, row in enumerate(maze):
+for y, row in enumerate(random_maze):
     for x, cell in enumerate(row):
         if cell == 2:
             player_position = (x, y)
@@ -78,7 +76,7 @@ isInput = True
 
 while (isInput):
     # map display
-    for y, row in enumerate(maze):
+    for y, row in enumerate(random_maze):
         cells = []
         for x, cell in enumerate(row):
             if (x, y) == player_position:
@@ -108,14 +106,14 @@ while (isInput):
     # boundary check
     if (
         player_position_y + dy < 0 or 
-        player_position_y + dy >= len(maze) or 
+        player_position_y + dy >= len(random_maze) or 
         player_position_x + dx < 0 or 
-        player_position_x + dx >= len(maze[player_position_y])
+        player_position_x + dx >= len(random_maze[player_position_y])
         ):
         print("Out of Bounds")
         continue
     # wall check
-    if (maze[player_position_y + dy][player_position_x + dx] == 1):
+    if (random_maze[player_position_y + dy][player_position_x + dx] == 1):
         print("Wall")
         continue
     
@@ -125,8 +123,8 @@ while (isInput):
     player_position = (player_position_x, player_position_y)
     
     # special cells check
-    if maze[player_position_y][player_position_x] == 2:
+    if random_maze[player_position_y][player_position_x] == 2:
         print("You Can't Leave")
-    if maze[player_position_y][player_position_x] == 3:
+    if random_maze[player_position_y][player_position_x] == 3:
         print("You Found The Exit!")
         break
