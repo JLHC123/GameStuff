@@ -1,14 +1,6 @@
 import random
 
 print("Game Start")
-# # generic maze
-# maze = [
-#     [1, 1, 3, 1, 1],
-#     [1, 1, 0, 0, 1],
-#     [1, 0, 1, 0, 1],
-#     [1, 0, 0, 0, 1],
-#     [1, 1, 2, 1, 1]
-# ]
 
 # make random maze
 n = random.randint(5, 10)
@@ -83,13 +75,6 @@ while (sx, sy) != (ex, ey):
         sy -= 1
 random_maze[random_starting_y][random_starting_x] = 2
 random_maze[random_ending_y][random_ending_x] = 3
-
-# # print random maze
-# for y, row in enumerate(random_maze):
-#     cells = []
-#     for x, cell in enumerate(row):
-#         cells.append(f"{cell}")
-#     print(" ".join(cells))
 
 player_position = None
 # finding our player start position
