@@ -60,12 +60,12 @@ for y in range(1, n - 1):
         if random.randint(0, 10) < 3:
             random_maze[y][x] = 1
 
-# print random maze
-for y, row in enumerate(random_maze):
-    cells = []
-    for x, cell in enumerate(row):
-        cells.append(f"{cell}")
-    print(" ".join(cells))
+# # print random maze
+# for y, row in enumerate(random_maze):
+#     cells = []
+#     for x, cell in enumerate(row):
+#         cells.append(f"{cell}")
+#     print(" ".join(cells))
 
 player_position = None
 # finding our player start position
