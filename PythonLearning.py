@@ -53,6 +53,12 @@ random_maze[random_ending_y][random_ending_x] = 3
 for y in range(1, n - 1):
     for x in range(1, n - 1):
         random_maze[y][x] = 0
+        
+# random wall generation
+for y in range(1, n - 1):
+    for x in range(1, n - 1):
+        if random.randint(0, 10) < 3:
+            random_maze[y][x] = 1
 
 # print random maze
 for y, row in enumerate(random_maze):
