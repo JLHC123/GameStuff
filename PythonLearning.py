@@ -29,7 +29,6 @@ elif starting_edge == "left":
 elif starting_edge == "right": 
     random_starting_x = n - 1
     random_starting_y = random.randint(1, n - 2)
-random_maze[random_starting_y][random_starting_x] = 2
 
 edges.remove(starting_edge) # remove the starting edge from the list
 
@@ -47,7 +46,6 @@ elif ending_edge == "left":
 elif ending_edge == "right": 
     random_ending_x = n - 1
     random_ending_y = random.randint(1, n - 2)
-random_maze[random_ending_y][random_ending_x] = 3
 
 # turn all non edge cells into empty space 
 for y in range(1, n - 1):
@@ -59,6 +57,22 @@ for y in range(1, n - 1):
     for x in range(1, n - 1):
         if random.randint(0, 10) < 3:
             random_maze[y][x] = 1
+
+# valid path generation
+sx, sy = random_starting_x, random_starting_y
+ex, ey = random_ending_x, random_ending_y
+while (sx, sy) != (ex, ey):
+    random_maze[sy][sx] = 0
+    if sx < ex:
+        sx += 1
+    elif sx > ex:
+        sx -= 1
+    elif sy < ey:
+        sy += 1
+    elif sy > ey:
+        sy -= 1
+random_maze[random_starting_y][random_starting_x] = 2
+random_maze[random_ending_y][random_ending_x] = 3
 
 # # print random maze
 # for y, row in enumerate(random_maze):
