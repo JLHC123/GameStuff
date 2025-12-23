@@ -61,8 +61,18 @@ for y in range(1, n - 1):
 # valid path generation
 sx, sy = random_starting_x, random_starting_y
 ex, ey = random_ending_x, random_ending_y
+# make sure to move away from edge before we make the paths
+if (sx == n - 1):
+    sx -= 1
+elif (sx == 0):
+    sx += 1
+elif (sy == n - 1):
+    sy -= 1
+elif (sy == 0):
+    sy += 1
 while (sx, sy) != (ex, ey):
     random_maze[sy][sx] = 0
+    # find the path
     if sx < ex:
         sx += 1
     elif sx > ex:
