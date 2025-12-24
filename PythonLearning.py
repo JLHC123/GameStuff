@@ -62,6 +62,14 @@ elif (sy == n - 1):
     sy -= 1
 elif (sy == 0):
     sy += 1
+if (ex == n - 1):
+    ex -= 1
+elif (ex == 0):
+    ex += 1
+elif (ey == n - 1):
+    ey -= 1
+elif (ey == 0):
+    ey += 1
 while (sx, sy) != (ex, ey):
     random_maze[sy][sx] = 0
     # find the path
@@ -73,6 +81,7 @@ while (sx, sy) != (ex, ey):
         sy += 1
     elif sy > ey:
         sy -= 1
+random_maze[ey][ex] = 0
 random_maze[random_starting_y][random_starting_x] = 2
 random_maze[random_ending_y][random_ending_x] = 3
 
