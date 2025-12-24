@@ -47,7 +47,7 @@ for y in range(1, n - 1):
 # random wall generation
 for y in range(1, n - 1):
     for x in range(1, n - 1):
-        if random.randint(0, 10) < 3:
+        if random.randint(0, 10) < 9:
             random_maze[y][x] = 1
 
 # valid path generation
@@ -72,15 +72,19 @@ elif (ey == 0):
     ey += 1
 while (sx, sy) != (ex, ey):
     random_maze[sy][sx] = 0
-    # find the path
-    if sx < ex:
-        sx += 1
-    elif sx > ex:
-        sx -= 1
-    elif sy < ey:
-        sy += 1
-    elif sy > ey:
-        sy -= 1
+    # add curve to path
+    directions = []
+    if sx < ex: 
+        directions.append((1, 0))
+    if sx > ex: 
+        directions.append((-1, 0))
+    if sy < ey: 
+        directions.append((0, 1))
+    if sy > ey:
+        directions.append((0, -1))
+    dx, dy = random.choice(directions)
+    sx += dx
+    sy += dy  
 random_maze[ey][ex] = 0
 random_maze[random_starting_y][random_starting_x] = 2
 random_maze[random_ending_y][random_ending_x] = 3
