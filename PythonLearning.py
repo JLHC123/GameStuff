@@ -47,7 +47,7 @@ for y in range(1, n - 1):
 # random wall generation
 for y in range(1, n - 1):
     for x in range(1, n - 1):
-        if random.randint(0, 10) < 9:
+        if random.randint(0, 10) < 11:
             random_maze[y][x] = 1
 
 # valid path generation
