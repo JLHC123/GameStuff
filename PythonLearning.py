@@ -87,6 +87,10 @@ def makeMaze():
     maze[ey][ex] = 0
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
+    
+    return maze
+    
+    
 
     player_position = None
     # finding our player start position
@@ -158,7 +162,9 @@ def makeMaze():
 
 def main():
     print("Game Start")
-    makeMaze()
+    maze = makeMaze()
+    for m in maze:
+        print(m)
 
 if __name__ == "__main__":
     main()
