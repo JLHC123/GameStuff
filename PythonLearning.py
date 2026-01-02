@@ -1,10 +1,7 @@
 import random
 
-def main():
-
-    print("Game Start")
-
-    # make random maze
+# make a random maze
+def makeMaze():
     n = random.randint(5, 10)
     random_maze = [[1] * n for _ in range(n)]
 
@@ -158,6 +155,11 @@ def main():
         if random_maze[player_position_y][player_position_x] == 3:
             print("You Found The Exit!")
             break
+
+def main():
+    print("Game Start")
+    makeMaze()
+
 
 if __name__ == "__main__":
     main()
