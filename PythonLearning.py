@@ -90,8 +90,7 @@ def makeMaze():
     
     return maze
     
-    
-
+def playMaze(maze):
     player_position = None
     # finding our player start position
     for y, row in enumerate(maze):
@@ -163,8 +162,7 @@ def makeMaze():
 def main():
     print("Game Start")
     maze = makeMaze()
-    for m in maze:
-        print(m)
+    playMaze(maze)
 
 if __name__ == "__main__":
     main()
