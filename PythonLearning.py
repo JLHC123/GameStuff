@@ -1,158 +1,163 @@
 import random
 
-print("Game Start")
+def main():
 
-# make random maze
-n = random.randint(5, 10)
-random_maze = [[1] * n for _ in range(n)]
+    print("Game Start")
 
-# select random starting point from just the outer walls
-edges = ["top", "bottom", "left", "right"]
-starting_edge = random.choice(edges)
-if starting_edge == "top":
-    random_starting_x = random.randint(1, n - 2)
-    random_starting_y = 0
-elif starting_edge == "bottom": 
-    random_starting_x = random.randint(1, n - 2)
-    random_starting_y = n - 1
-elif starting_edge == "left": 
-    random_starting_x = 0
-    random_starting_y = random.randint(1, n - 2)
-elif starting_edge == "right": 
-    random_starting_x = n - 1
-    random_starting_y = random.randint(1, n - 2)
+    # make random maze
+    n = random.randint(5, 10)
+    random_maze = [[1] * n for _ in range(n)]
 
-edges.remove(starting_edge) # remove the starting edge from the list
+    # select random starting point from just the outer walls
+    edges = ["top", "bottom", "left", "right"]
+    starting_edge = random.choice(edges)
+    if starting_edge == "top":
+        random_starting_x = random.randint(1, n - 2)
+        random_starting_y = 0
+    elif starting_edge == "bottom": 
+        random_starting_x = random.randint(1, n - 2)
+        random_starting_y = n - 1
+    elif starting_edge == "left": 
+        random_starting_x = 0
+        random_starting_y = random.randint(1, n - 2)
+    elif starting_edge == "right": 
+        random_starting_x = n - 1
+        random_starting_y = random.randint(1, n - 2)
 
-# select random ending point from the remaining outer walls
-ending_edge = random.choice(edges)
-if ending_edge == "top":
-    random_ending_x = random.randint(1, n - 2)
-    random_ending_y = 0
-elif ending_edge == "bottom": 
-    random_ending_x = random.randint(1, n - 2)
-    random_ending_y = n - 1
-elif ending_edge == "left": 
-    random_ending_x = 0
-    random_ending_y = random.randint(1, n - 2)
-elif ending_edge == "right": 
-    random_ending_x = n - 1
-    random_ending_y = random.randint(1, n - 2)
+    edges.remove(starting_edge) # remove the starting edge from the list
 
-# turn all non edge cells into empty space 
-for y in range(1, n - 1):
-    for x in range(1, n - 1):
-        random_maze[y][x] = 0
-        
-# random wall generation
-for y in range(1, n - 1):
-    for x in range(1, n - 1):
-        if random.randint(0, 10) < 11:
-            random_maze[y][x] = 1
+    # select random ending point from the remaining outer walls
+    ending_edge = random.choice(edges)
+    if ending_edge == "top":
+        random_ending_x = random.randint(1, n - 2)
+        random_ending_y = 0
+    elif ending_edge == "bottom": 
+        random_ending_x = random.randint(1, n - 2)
+        random_ending_y = n - 1
+    elif ending_edge == "left": 
+        random_ending_x = 0
+        random_ending_y = random.randint(1, n - 2)
+    elif ending_edge == "right": 
+        random_ending_x = n - 1
+        random_ending_y = random.randint(1, n - 2)
 
-# valid path generation
-sx, sy = random_starting_x, random_starting_y
-ex, ey = random_ending_x, random_ending_y
-# make sure to move away from edge before we make the paths
-if (sx == n - 1):
-    sx -= 1
-elif (sx == 0):
-    sx += 1
-elif (sy == n - 1):
-    sy -= 1
-elif (sy == 0):
-    sy += 1
-if (ex == n - 1):
-    ex -= 1
-elif (ex == 0):
-    ex += 1
-elif (ey == n - 1):
-    ey -= 1
-elif (ey == 0):
-    ey += 1
-while (sx, sy) != (ex, ey):
-    random_maze[sy][sx] = 0
-    # add curve to path
-    directions = []
-    if sx < ex: 
-        directions.append((1, 0))
-    if sx > ex: 
-        directions.append((-1, 0))
-    if sy < ey: 
-        directions.append((0, 1))
-    if sy > ey:
-        directions.append((0, -1))
-    dx, dy = random.choice(directions)
-    sx += dx
-    sy += dy  
-random_maze[ey][ex] = 0
-random_maze[random_starting_y][random_starting_x] = 2
-random_maze[random_ending_y][random_ending_x] = 3
+    # turn all non edge cells into empty space 
+    for y in range(1, n - 1):
+        for x in range(1, n - 1):
+            random_maze[y][x] = 0
+            
+    # random wall generation
+    for y in range(1, n - 1):
+        for x in range(1, n - 1):
+            if random.randint(0, 10) < 11:
+                random_maze[y][x] = 1
 
-player_position = None
-# finding our player start position
-for y, row in enumerate(random_maze):
-    for x, cell in enumerate(row):
-        if cell == 2:
-            player_position = (x, y)
-            break
-    if player_position is not None:
-        break
-    
-player_position_x, player_position_y = player_position
-isInput = True
+    # valid path generation
+    sx, sy = random_starting_x, random_starting_y
+    ex, ey = random_ending_x, random_ending_y
+    # make sure to move away from edge before we make the paths
+    if (sx == n - 1):
+        sx -= 1
+    elif (sx == 0):
+        sx += 1
+    elif (sy == n - 1):
+        sy -= 1
+    elif (sy == 0):
+        sy += 1
+    if (ex == n - 1):
+        ex -= 1
+    elif (ex == 0):
+        ex += 1
+    elif (ey == n - 1):
+        ey -= 1
+    elif (ey == 0):
+        ey += 1
+    while (sx, sy) != (ex, ey):
+        random_maze[sy][sx] = 0
+        # add curve to path
+        directions = []
+        if sx < ex: 
+            directions.append((1, 0))
+        if sx > ex: 
+            directions.append((-1, 0))
+        if sy < ey: 
+            directions.append((0, 1))
+        if sy > ey:
+            directions.append((0, -1))
+        dx, dy = random.choice(directions)
+        sx += dx
+        sy += dy  
+    random_maze[ey][ex] = 0
+    random_maze[random_starting_y][random_starting_x] = 2
+    random_maze[random_ending_y][random_ending_x] = 3
 
-while (isInput):
-    # map display
+    player_position = None
+    # finding our player start position
     for y, row in enumerate(random_maze):
-        cells = []
         for x, cell in enumerate(row):
-            if (x, y) == player_position:
-                cells.append("P")
-            elif cell == 1:
-                cells.append("#")
-            elif cell == 0:
-                cells.append(".")
-            elif cell == 2:
-                cells.append("S")
-            elif cell == 3:
-                cells.append("E")
-        print(" ".join(cells))    
-               
-    T = input().lower()
-    # movement logic
-    dy, dx = 0, 0
-    if (T == "left"):
-        dx = -1
-    elif (T == "right"):
-        dx = 1
-    elif (T == "up"):
-        dy = -1
-    elif (T == "down"):
-        dy = 1
+            if cell == 2:
+                player_position = (x, y)
+                break
+        if player_position is not None:
+            break
+        
+    player_position_x, player_position_y = player_position
+    isInput = True
 
-    # boundary check
-    if (
-        player_position_y + dy < 0 or 
-        player_position_y + dy >= len(random_maze) or 
-        player_position_x + dx < 0 or 
-        player_position_x + dx >= len(random_maze[player_position_y])
-        ):
-        print("Out of Bounds")
-        continue
-    # wall check
-    if (random_maze[player_position_y + dy][player_position_x + dx] == 1):
-        print("Wall")
-        continue
-    
-    # position update
-    player_position_x += dx
-    player_position_y += dy
-    player_position = (player_position_x, player_position_y)
-    
-    # special cells check
-    if random_maze[player_position_y][player_position_x] == 2:
-        print("You Can't Leave")
-    if random_maze[player_position_y][player_position_x] == 3:
-        print("You Found The Exit!")
-        break
+    while (isInput):
+        # map display
+        for y, row in enumerate(random_maze):
+            cells = []
+            for x, cell in enumerate(row):
+                if (x, y) == player_position:
+                    cells.append("P")
+                elif cell == 1:
+                    cells.append("#")
+                elif cell == 0:
+                    cells.append(".")
+                elif cell == 2:
+                    cells.append("S")
+                elif cell == 3:
+                    cells.append("E")
+            print(" ".join(cells))    
+                
+        T = input().lower()
+        # movement logic
+        dy, dx = 0, 0
+        if (T == "left"):
+            dx = -1
+        elif (T == "right"):
+            dx = 1
+        elif (T == "up"):
+            dy = -1
+        elif (T == "down"):
+            dy = 1
+
+        # boundary check
+        if (
+            player_position_y + dy < 0 or 
+            player_position_y + dy >= len(random_maze) or 
+            player_position_x + dx < 0 or 
+            player_position_x + dx >= len(random_maze[player_position_y])
+            ):
+            print("Out of Bounds")
+            continue
+        # wall check
+        if (random_maze[player_position_y + dy][player_position_x + dx] == 1):
+            print("Wall")
+            continue
+        
+        # position update
+        player_position_x += dx
+        player_position_y += dy
+        player_position = (player_position_x, player_position_y)
+        
+        # special cells check
+        if random_maze[player_position_y][player_position_x] == 2:
+            print("You Can't Leave")
+        if random_maze[player_position_y][player_position_x] == 3:
+            print("You Found The Exit!")
+            break
+
+if __name__ == "__main__":
+    main()
