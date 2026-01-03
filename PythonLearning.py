@@ -88,22 +88,9 @@ def makeMaze():
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
     
-    return maze
+    return maze, starting_x, starting_y
 
-def findPlayerPosition(maze):
-    player_position = None
-    for y, row in enumerate(maze):
-        for x, cell in enumerate(row):
-            if cell == 2:
-                player_position = (x, y)
-                break
-        if player_position is not None:
-            break
-    return player_position
-    
-def playMaze(maze):
-    # find our player start position
-    player_position = findPlayerPosition(maze)
+def playMaze(maze, player_position):
     player_position_x, player_position_y = player_position
     isInput = True
 
@@ -164,8 +151,9 @@ def playMaze(maze):
 
 def main():
     print("Game Start")
-    maze = makeMaze()
-    playMaze(maze)
+    maze, starting_x, starting_y = makeMaze()
+    player_position = starting_x, starting_y
+    playMaze(maze, player_position)
 
 if __name__ == "__main__":
     main()
