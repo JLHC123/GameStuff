@@ -1,6 +1,5 @@
 import random
 
-# make a random maze
 def makeMaze():
     n = random.randint(5, 10)
     maze = [[1] * n for _ in range(n)]
@@ -90,13 +89,8 @@ def makeMaze():
     
     return maze, starting_x, starting_y
 
-def playMaze(maze, player_position):
-    player_position_x, player_position_y = player_position
-    isInput = True
-
-    while (isInput):
-        # map display
-        for y, row in enumerate(maze):
+def displayMaze(maze, player_position):
+    for y, row in enumerate(maze):
             cells = []
             for x, cell in enumerate(row):
                 if (x, y) == player_position:
@@ -109,7 +103,15 @@ def playMaze(maze, player_position):
                     cells.append("S")
                 elif cell == 3:
                     cells.append("E")
-            print(" ".join(cells))    
+            print(" ".join(cells))   
+
+def playMaze(maze, player_position):
+    player_position_x, player_position_y = player_position
+    isInput = True
+
+    while (isInput):
+        # display maze
+        displayMaze(maze, player_position)
                 
         T = input().lower()
         # movement logic
@@ -151,8 +153,10 @@ def playMaze(maze, player_position):
 
 def main():
     print("Game Start")
+    # make a random maze
     maze, starting_x, starting_y = makeMaze()
     player_position = starting_x, starting_y
+    # play the maze
     playMaze(maze, player_position)
 
 if __name__ == "__main__":
