@@ -1,10 +1,7 @@
 import random
 
-def makeMaze():
-    n = random.randint(5, 10)
-    maze = [[1] * n for _ in range(n)]
-
-    # select random starting point from just the outer walls
+def startAndEndPoints(n):
+    # select random starting point from the outer walls
     edges = ["top", "bottom", "left", "right"]
     starting_edge = random.choice(edges)
     if starting_edge == "top":
@@ -36,7 +33,16 @@ def makeMaze():
     elif ending_edge == "right": 
         ending_x = n - 1
         ending_y = random.randint(1, n - 2)
+        
+    return starting_x, starting_y, ending_x, ending_y
 
+def makeMaze():
+    n = random.randint(5, 10)
+    maze = [[1] * n for _ in range(n)]
+    
+    # generate start and end points
+    starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
+    
     # turn all non edge cells into empty space 
     for y in range(1, n - 1):
         for x in range(1, n - 1):
