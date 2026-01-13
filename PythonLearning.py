@@ -36,27 +36,23 @@ def startAndEndPoints(n):
         
     return starting_x, starting_y, ending_x, ending_y
 
+def moveAwayFromEdge(x, y, n):
+    if x == 0:
+        x += 1
+    elif x == n - 1:
+        x -= 1
+    elif y == 0:
+        y += 1
+    elif y == n - 1:
+        y -= 1
+    return x, y
+
 def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
-    # valid path generation
     sx, sy = starting_x, starting_y
     ex, ey = ending_x, ending_y
     # make sure to move away from edge before we make the paths
-    if (sx == n - 1):
-        sx -= 1
-    elif (sx == 0):
-        sx += 1
-    elif (sy == n - 1):
-        sy -= 1
-    elif (sy == 0):
-        sy += 1
-    if (ex == n - 1):
-        ex -= 1
-    elif (ex == 0):
-        ex += 1
-    elif (ey == n - 1):
-        ey -= 1
-    elif (ey == 0):
-        ey += 1
+    sx, sy = moveAwayFromEdge(sx, sy, n)
+    ex, ey = moveAwayFromEdge(ex, ey, n)
     while (sx, sy) != (ex, ey):
         maze[sy][sx] = 0
         # add curve to path
