@@ -111,6 +111,15 @@ def displayMaze(maze, player_position):
                     cells.append("E")
             print(" ".join(cells))   
 
+def isValidMove(maze, x, y):
+    if y < 0 or y >= len(maze):
+        return False
+    if x < 0 or x >= len(maze[y]):
+        return False
+    if maze[y][x] == 1:
+        return False
+    return True
+
 def playMaze(maze, player_position):
     player_position_x, player_position_y = player_position
     isInput = True
@@ -131,18 +140,10 @@ def playMaze(maze, player_position):
         elif (T == "down"):
             dy = 1
 
-        # boundary check
-        if (
-            player_position_y + dy < 0 or 
-            player_position_y + dy >= len(maze) or 
-            player_position_x + dx < 0 or 
-            player_position_x + dx >= len(maze[player_position_y])
-            ):
-            print("Out of Bounds")
-            continue
-        # wall check
-        if (maze[player_position_y + dy][player_position_x + dx] == 1):
-            print("Wall")
+        # valid move check
+        new_dx, new_dy = player_position_x + dx, player_position_y + dy
+        if not isValidMove(maze, new_dx, new_dy):
+            print("Invalid Move")
             continue
         
         # position update
