@@ -146,14 +146,17 @@ def playMaze(maze, player_position):
             print("Invalid Move")
             continue
         
+        # check if player tries to return to start point
+        if maze[new_dy][new_dx] == 2:
+            print("You Can't Leave")
+            continue
+        
         # position update
         player_position_x += dx
         player_position_y += dy
         player_position = (player_position_x, player_position_y)
         
-        # special cells check
-        if maze[player_position_y][player_position_x] == 2:
-            print("You Can't Leave")
+        # check if player reaches exits
         if maze[player_position_y][player_position_x] == 3:
             print("You Found The Exit!")
             break
