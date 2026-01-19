@@ -1,4 +1,5 @@
 import random
+import copy
 
 def startAndEndPoints(n):
     # select random starting point from the outer walls
@@ -76,9 +77,9 @@ def makeMaze():
     maze = [[1] * n for _ in range(n)]
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
-    tempMaze = maze
+    tempMaze = copy.deepcopy(maze)
     tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)    
-    random_point = randomPoint(maze, n)
+    random_point = randomPoint(tempMaze, n)
     random_point_x, random_point_y = random_point
     maze = [[1] * n for _ in range(n)]
     maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
