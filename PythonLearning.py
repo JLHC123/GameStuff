@@ -75,19 +75,24 @@ def makeMaze():
     n = 10
     maze = [[1] * n for _ in range(n)]
     # generate start and end points
-    starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)    
-    interest_point = randomInterestPoint(n)
-    interest_point_x, interest_point_y = interest_point
-    maze = validPathGeneration(maze, starting_x, starting_y, interest_point_x, interest_point_y, n)
-    maze = validPathGeneration(maze, interest_point_x, interest_point_y, ending_x, ending_y, n)
-    maze[interest_point_y][interest_point_x] = 4
+    starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
+    tempMaze = maze
+    tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)    
+    random_point = randomPoint(maze, n)
+    random_point_x, random_point_y = random_point
+    maze = [[1] * n for _ in range(n)]
+    maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
+    maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
+    maze[random_point_y][random_point_x] = 4
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
     return maze, starting_x, starting_y
 
-def randomInterestPoint(n):
+def randomPoint(maze, n):
     x = random.randint(2, n - 3)
     y = random.randint(2, n - 3)
+    if (maze[y][x] == 0):
+        return randomPoint(maze, n)
     return (x, y)
 
 def displayMaze(maze, player_position):
