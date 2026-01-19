@@ -69,9 +69,6 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
         sx += dx
         sy += dy  
     maze[ey][ex] = 0
-    maze[starting_y][starting_x] = 2
-    maze[ending_y][ending_x] = 3
-    
     return maze
 
 def makeMaze():
@@ -79,10 +76,13 @@ def makeMaze():
     maze = [[1] * n for _ in range(n)]
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)    
-    maze = validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n)
     interest_point = randomInterestPoint(n)
     interest_point_x, interest_point_y = interest_point
-    maze[interest_point_y][interest_point_x] = 0
+    maze = validPathGeneration(maze, starting_x, starting_y, interest_point_x, interest_point_y, n)
+    maze = validPathGeneration(maze, interest_point_x, interest_point_y, ending_x, ending_y, n)
+    maze[interest_point_y][interest_point_x] = 4
+    maze[starting_y][starting_x] = 2
+    maze[ending_y][ending_x] = 3
     return maze, starting_x, starting_y
 
 def randomInterestPoint(n):
@@ -104,6 +104,8 @@ def displayMaze(maze, player_position):
                     cells.append("S")
                 elif cell == 3:
                     cells.append("E")
+                elif cell == 4:
+                    cells.append("I")
             print(" ".join(cells))   
 
 def isValidMove(maze, x, y):
