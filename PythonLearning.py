@@ -80,7 +80,15 @@ def makeMaze():
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)    
     maze = validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n)
+    interest_point = randomInterestPoint(n)
+    interest_point_x, interest_point_y = interest_point
+    maze[interest_point_y][interest_point_x] = 0
     return maze, starting_x, starting_y
+
+def randomInterestPoint(n):
+    x = random.randint(2, n - 3)
+    y = random.randint(2, n - 3)
+    return (x, y)
 
 def displayMaze(maze, player_position):
     for y, row in enumerate(maze):
