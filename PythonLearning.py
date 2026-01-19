@@ -75,23 +75,10 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
     return maze
 
 def makeMaze():
-    n = random.randint(5, 10)
+    n = 10
     maze = [[1] * n for _ in range(n)]
-    
     # generate start and end points
-    starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
-    
-    # turn all non edge cells into empty space 
-    for y in range(1, n - 1):
-        for x in range(1, n - 1):
-            maze[y][x] = 0
-            
-    # random wall generation
-    for y in range(1, n - 1):
-        for x in range(1, n - 1):
-            if random.randint(0, 10) < 11:
-                maze[y][x] = 1
-    
+    starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)    
     maze = validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n)
     return maze, starting_x, starting_y
 
