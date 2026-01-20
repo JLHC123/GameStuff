@@ -95,16 +95,35 @@ def makeMaze():
     maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
     maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
     
+    # make branching paths from main path
+    n_branches = n // 2
+    for _ in range(n_branches):
+        starting_branch = randomSpace(maze, n)
+        starting_branch_x, starting_branch_y = starting_branch
+        ending_branch = randomPoint(maze, n)
+        ending_branch_x, ending_branch_y = ending_branch
+        maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
+        maze[ending_branch_y][ending_branch_x] = 5
+    
     # special markers for start, end, and random point
-    maze[random_point_y][random_point_x] = 4
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
+    maze[random_point_y][random_point_x] = 4
+    
     return maze, starting_x, starting_y
+
+def randomSpace(maze, n):
+    # select a random point in the maze that isn't on a already open space
+    x = random.randint(1, n - 2)
+    y = random.randint(1, n - 2)
+    if (maze[y][x] != 0):
+        return randomPoint(maze, n)
+    return (x, y)
 
 def randomPoint(maze, n):
     # select a random point in the maze that isn't on a already open space
-    x = random.randint(2, n - 3)
-    y = random.randint(2, n - 3)
+    x = random.randint(1, n - 2)
+    y = random.randint(1, n - 2)
     if (maze[y][x] == 0):
         return randomPoint(maze, n)
     return (x, y)
@@ -126,6 +145,8 @@ def displayMaze(maze, player_position):
                     cells.append("E")
                 elif cell == 4:
                     cells.append("I")
+                elif cell == 5:
+                    cells.append("B")
             print(" ".join(cells))   
 
 def isValidMove(maze, x, y):
