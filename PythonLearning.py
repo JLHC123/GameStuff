@@ -17,9 +17,8 @@ def startAndEndPoints(n):
     elif starting_edge == "right": 
         starting_x = n - 1
         starting_y = random.randint(1, n - 2)
-
-    edges.remove(starting_edge) # remove the starting edge from the list
-
+    # remove the starting edge from the list
+    edges.remove(starting_edge)
     # select random ending point from the remaining outer walls
     ending_edge = random.choice(edges)
     if ending_edge == "top":
@@ -34,10 +33,11 @@ def startAndEndPoints(n):
     elif ending_edge == "right": 
         ending_x = n - 1
         ending_y = random.randint(1, n - 2)
-        
+    # return starting and ending points
     return starting_x, starting_y, ending_x, ending_y
 
 def moveAwayFromEdge(x, y, n):
+    # move the point away from the edge
     if x == 0:
         x += 1
     elif x == n - 1:
@@ -77,19 +77,23 @@ def makeMaze():
     maze = [[1] * n for _ in range(n)]
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
+    # make a copy of maze that contains the start to end path
     tempMaze = copy.deepcopy(maze)
-    tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)    
+    tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)
+    # select a random point in the maze that is not on the path from start to end    
     random_point = randomPoint(tempMaze, n)
     random_point_x, random_point_y = random_point
-    maze = [[1] * n for _ in range(n)]
+    # generate paths from start to random point and from random point to end
     maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
     maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
+    # special markers for start, end, and random point
     maze[random_point_y][random_point_x] = 4
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
     return maze, starting_x, starting_y
 
 def randomPoint(maze, n):
+    # select a random point in the maze that isn't on a already open space
     x = random.randint(2, n - 3)
     y = random.randint(2, n - 3)
     if (maze[y][x] == 0):
@@ -97,6 +101,7 @@ def randomPoint(maze, n):
     return (x, y)
 
 def displayMaze(maze, player_position):
+    # displays the maze
     for y, row in enumerate(maze):
             cells = []
             for x, cell in enumerate(row):
@@ -115,6 +120,7 @@ def displayMaze(maze, player_position):
             print(" ".join(cells))   
 
 def isValidMove(maze, x, y):
+    # checks if the move is valid
     if y < 0 or y >= len(maze):
         return False
     if x < 0 or x >= len(maze[y]):
