@@ -121,7 +121,7 @@ def randomSpace(maze, n):
     x = random.randint(1, n - 2)
     y = random.randint(1, n - 2)
     if (maze[y][x] != 0):
-        return randomPoint(maze, n)
+        return randomSpace(maze, n)
     return (x, y)
 
 def randomPoint(maze, n):
