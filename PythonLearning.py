@@ -17,8 +17,10 @@ def startAndEndPoints(n):
     elif starting_edge == "right": 
         starting_x = n - 1
         starting_y = random.randint(1, n - 2)
+    
     # remove the starting edge from the list
     edges.remove(starting_edge)
+    
     # select random ending point from the remaining outer walls
     ending_edge = random.choice(edges)
     if ending_edge == "top":
@@ -33,6 +35,7 @@ def startAndEndPoints(n):
     elif ending_edge == "right": 
         ending_x = n - 1
         ending_y = random.randint(1, n - 2)
+        
     # return starting and ending points
     return starting_x, starting_y, ending_x, ending_y
 
@@ -51,6 +54,7 @@ def moveAwayFromEdge(x, y, n):
 def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
     sx, sy = starting_x, starting_y
     ex, ey = ending_x, ending_y
+    
     # make sure to move away from edge before we make the paths
     sx, sy = moveAwayFromEdge(sx, sy, n)
     ex, ey = moveAwayFromEdge(ex, ey, n)
@@ -75,17 +79,22 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
 def makeMaze():
     n = 10
     maze = [[1] * n for _ in range(n)]
+    
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
+    
     # make a copy of maze that contains the start to end path
     tempMaze = copy.deepcopy(maze)
     tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)
+    
     # select a random point in the maze that is not on the path from start to end    
     random_point = randomPoint(tempMaze, n)
     random_point_x, random_point_y = random_point
+    
     # generate paths from start to random point and from random point to end
     maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
     maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
+    
     # special markers for start, end, and random point
     maze[random_point_y][random_point_x] = 4
     maze[starting_y][starting_x] = 2
@@ -135,9 +144,9 @@ def playMaze(maze, player_position):
 
     while (isInput):
         # display maze
-        displayMaze(maze, player_position)
-                
+        displayMaze(maze, player_position)     
         T = input().lower()
+        
         # movement logic
         dy, dx = 0, 0
         if (T == "left"):
