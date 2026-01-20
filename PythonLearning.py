@@ -96,6 +96,16 @@ def makeMaze():
     maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
     
     # make branching paths from main path
+    maze = makeBranchingPaths(n, maze)
+    
+    # special markers for start, end, and random point
+    maze[starting_y][starting_x] = 2
+    maze[ending_y][ending_x] = 3
+    maze[random_point_y][random_point_x] = 4
+    
+    return maze, starting_x, starting_y
+
+def makeBranchingPaths(n, maze):
     n_branches = n // 2
     for _ in range(n_branches):
         starting_branch = randomSpace(maze, n)
@@ -104,13 +114,7 @@ def makeMaze():
         ending_branch_x, ending_branch_y = ending_branch
         maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
         maze[ending_branch_y][ending_branch_x] = 5
-    
-    # special markers for start, end, and random point
-    maze[starting_y][starting_x] = 2
-    maze[ending_y][ending_x] = 3
-    maze[random_point_y][random_point_x] = 4
-    
-    return maze, starting_x, starting_y
+    return maze
 
 def randomSpace(maze, n):
     # select a random point in the maze that isn't on a already open space
