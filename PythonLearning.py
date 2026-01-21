@@ -79,7 +79,7 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
     return maze
 
 def makeMaze():
-    n = 10
+    n = 20
     maze = [[1] * n for _ in range(n)]
     
     # generate start and end points
