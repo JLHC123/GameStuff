@@ -108,7 +108,7 @@ def makeMaze():
     return maze, starting_x, starting_y
 
 def makeBranchingPaths(n, maze):
-    n_branches = n // 2
+    n_branches = n // 4
     for _ in range(n_branches):
         starting_branch = randomSpace(maze, n)
         starting_branch_x, starting_branch_y = starting_branch
@@ -116,6 +116,12 @@ def makeBranchingPaths(n, maze):
         ending_branch_x, ending_branch_y = ending_branch
         maze[ending_branch_y][ending_branch_x] = 5
         maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
+        sub_branch_chance = random.randint(0, 1)
+        if sub_branch_chance == 1:
+            sub_branch_ending = randomPoint(maze, n)
+            sub_branch_ending_x, sub_branch_ending_y = sub_branch_ending
+            maze = validPathGeneration(maze, ending_branch_x, ending_branch_y, sub_branch_ending_x, sub_branch_ending_y, n)
+            maze[sub_branch_ending_y][sub_branch_ending_x] = 6
     return maze
 
 def randomSpace(maze, n):
@@ -153,6 +159,8 @@ def displayMaze(maze, player_position):
                     cells.append("I")
                 elif cell == 5:
                     cells.append("B")
+                elif cell == 6:
+                    cells.append("b")
             print(" ".join(cells))   
 
 def isValidMove(maze, x, y):
