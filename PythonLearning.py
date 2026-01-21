@@ -114,8 +114,8 @@ def makeBranchingPaths(n, maze):
         starting_branch_x, starting_branch_y = starting_branch
         ending_branch = randomPoint(maze, n)
         ending_branch_x, ending_branch_y = ending_branch
-        maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
         maze[ending_branch_y][ending_branch_x] = 5
+        maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
     return maze
 
 def randomSpace(maze, n):
