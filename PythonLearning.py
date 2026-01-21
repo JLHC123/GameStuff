@@ -59,7 +59,8 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
     sx, sy = moveAwayFromEdge(sx, sy, n)
     ex, ey = moveAwayFromEdge(ex, ey, n)
     while (sx, sy) != (ex, ey):
-        maze[sy][sx] = 0
+        if maze[sy][sx] not in {2, 3, 4, 5}:
+            maze[sy][sx] = 0
         # add curve to path
         directions = []
         if sx < ex: 
@@ -72,8 +73,9 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
             directions.append((0, -1))
         dx, dy = random.choice(directions)
         sx += dx
-        sy += dy  
-    maze[ey][ex] = 0
+        sy += dy
+    if maze[ey][ex] not in {2, 3, 4, 5}:
+        maze[ey][ex] = 0
     return maze
 
 def makeMaze():
