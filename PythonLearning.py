@@ -108,28 +108,47 @@ def makeMaze():
     return maze, starting_x, starting_y
 
 def makeBranchingPaths(n, maze):
+    # make n number of branching paths
     n_branches = n // 5
+    
+    # for each branching path we will selet a random starting point on main path and a random ending point
     for _ in range(n_branches):
         starting_branch = randomSpace(maze, n)
         starting_branch_x, starting_branch_y = starting_branch
         ending_branch = randomPoint(maze, n)
         ending_branch_x, ending_branch_y = ending_branch
+        
+        # we make a valid path from that starting point to the ending point, and mark the end as the branching path
         maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
         maze[ending_branch_y][ending_branch_x] = 5
+        
+        # we then try creating sub branching paths from that ending point
         sub_level_counter = 0
         maze = makeSubBranchingPaths(n, maze, ending_branch_x, ending_branch_y, sub_level_counter)
     return maze
 
 def makeSubBranchingPaths(n, maze, ending_branch_x, ending_branch_y, sub_level_counter):
+    # each sub branching path has a chance to create another sub branching path
     sub_level_counter += 1
+    
+    # max limit of sub branching paths
     if sub_level_counter > n // 5:
         return maze
+    
+    # roll chance to create another sub branching path
     sub_branch_chance = random.randint(0, 10)
     if sub_branch_chance > 1:
+        # create a ending point for the sub branching path
         sub_branch_ending = randomPoint(maze, n)
         sub_branch_ending_x, sub_branch_ending_y = sub_branch_ending
+        
+        # we make a path from the starting to ending point
         maze = validPathGeneration(maze, ending_branch_x, ending_branch_y, sub_branch_ending_x, sub_branch_ending_y, n)
+        
+        # mark the end of the sub branching path
         maze[sub_branch_ending_y][sub_branch_ending_x] = 5 + sub_level_counter
+        
+        # and then we try to make another sub branching path over and over again until either we reach the limit or fail the chance roll
         maze = makeSubBranchingPaths(n, maze, sub_branch_ending_x, sub_branch_ending_y, sub_level_counter)
     return maze
 
