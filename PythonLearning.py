@@ -74,7 +74,7 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
         dx, dy = random.choice(directions)
         sx += dx
         sy += dy
-    if maze[ey][ex] not in {2, 3, 4, 5}:
+    if maze[ey][ex] == 1:
         maze[ey][ex] = 0
     return maze
 
