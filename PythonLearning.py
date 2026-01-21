@@ -59,7 +59,7 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
     sx, sy = moveAwayFromEdge(sx, sy, n)
     ex, ey = moveAwayFromEdge(ex, ey, n)
     while (sx, sy) != (ex, ey):
-        if maze[sy][sx] not in {2, 3, 4, 5}:
+        if maze[sy][sx] == 1:
             maze[sy][sx] = 0
         # add curve to path
         directions = []
@@ -108,7 +108,7 @@ def makeMaze():
     return maze, starting_x, starting_y
 
 def makeBranchingPaths(n, maze):
-    n_branches = n // 4
+    n_branches = n // 5
     for _ in range(n_branches):
         starting_branch = randomSpace(maze, n)
         starting_branch_x, starting_branch_y = starting_branch
@@ -116,12 +116,21 @@ def makeBranchingPaths(n, maze):
         ending_branch_x, ending_branch_y = ending_branch
         maze[ending_branch_y][ending_branch_x] = 5
         maze = validPathGeneration(maze, starting_branch_x, starting_branch_y, ending_branch_x, ending_branch_y, n)
-        sub_branch_chance = random.randint(0, 1)
-        if sub_branch_chance == 1:
-            sub_branch_ending = randomPoint(maze, n)
-            sub_branch_ending_x, sub_branch_ending_y = sub_branch_ending
-            maze = validPathGeneration(maze, ending_branch_x, ending_branch_y, sub_branch_ending_x, sub_branch_ending_y, n)
-            maze[sub_branch_ending_y][sub_branch_ending_x] = 6
+        sub_level_counter = 0
+        maze = makeSubBranchingPaths(n, maze, ending_branch_x, ending_branch_y, sub_level_counter)
+    return maze
+
+def makeSubBranchingPaths(n, maze, ending_branch_x, ending_branch_y, sub_level_counter):
+    sub_level_counter += 1
+    if sub_level_counter > n // 5:
+        return maze
+    sub_branch_chance = random.randint(0, 10)
+    if sub_branch_chance > 1:
+        sub_branch_ending = randomPoint(maze, n)
+        sub_branch_ending_x, sub_branch_ending_y = sub_branch_ending
+        maze = validPathGeneration(maze, ending_branch_x, ending_branch_y, sub_branch_ending_x, sub_branch_ending_y, n)
+        maze[sub_branch_ending_y][sub_branch_ending_x] = 5 + sub_level_counter
+        maze = makeSubBranchingPaths(n, maze, sub_branch_ending_x, sub_branch_ending_y, sub_level_counter)
     return maze
 
 def randomSpace(maze, n):
@@ -161,6 +170,8 @@ def displayMaze(maze, player_position):
                     cells.append("B")
                 elif cell == 6:
                     cells.append("b")
+                elif cell >= 7:
+                    cells.append(f"{cell}")
             print(" ".join(cells))   
 
 def isValidMove(maze, x, y):
