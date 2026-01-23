@@ -78,6 +78,21 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
         maze[ey][ex] = 0
     return maze
 
+def makeBendsInMaze(n, maze, starting_x, starting_y, ending_x, ending_y, n_points):
+    max_n_points = n // 4
+    
+    if n_points >= max_n_points:
+        maze = validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n)
+        return maze
+    
+    random_point = randomPoint(maze, n)
+    random_point_x, random_point_y = random_point
+    
+    maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
+    maze[random_point_y][random_point_x] = 4
+    n_points += 1
+    return makeBendsInMaze(n, maze, random_point_x, random_point_y, ending_x, ending_y, n_points)
+    
 def makeMaze():
     n = 20
     maze = [[1] * n for _ in range(n)]
@@ -85,17 +100,9 @@ def makeMaze():
     # generate start and end points
     starting_x, starting_y, ending_x, ending_y = startAndEndPoints(n)
     
-    # make a copy of maze that contains the start to end path
-    tempMaze = copy.deepcopy(maze)
-    tempMaze = validPathGeneration(tempMaze, starting_x, starting_y, ending_x, ending_y, n)
-    
-    # select a random point in the maze that is not on the path from start to end    
-    random_point = randomPoint(tempMaze, n)
-    random_point_x, random_point_y = random_point
-    
-    # generate paths from start to random point and from random point to end
-    maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
-    maze = validPathGeneration(maze, random_point_x, random_point_y, ending_x, ending_y, n)
+    # make bends in the maze
+    n_points = 0    
+    maze = makeBendsInMaze(n, maze, starting_x, starting_y, ending_x, ending_y, n_points)
     
     # make branching paths from main path
     maze = makeBranchingPaths(n, maze)
@@ -103,7 +110,6 @@ def makeMaze():
     # special markers for start, end, and random point
     maze[starting_y][starting_x] = 2
     maze[ending_y][ending_x] = 3
-    maze[random_point_y][random_point_x] = 4
     
     return maze, starting_x, starting_y
 
