@@ -81,13 +81,16 @@ def validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n):
 def makeBendsInMaze(n, maze, starting_x, starting_y, ending_x, ending_y, n_points):
     max_n_points = n // 4
     
+    # once we reach max number of points, we make path to the ending point
     if n_points >= max_n_points:
         maze = validPathGeneration(maze, starting_x, starting_y, ending_x, ending_y, n)
         return maze
     
+    # otherwise we select a random point
     random_point = randomPoint(maze, n)
     random_point_x, random_point_y = random_point
     
+    # and make a valid path to it
     maze = validPathGeneration(maze, starting_x, starting_y, random_point_x, random_point_y, n)
     maze[random_point_y][random_point_x] = 4
     n_points += 1
