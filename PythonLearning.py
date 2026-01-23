@@ -1,5 +1,4 @@
 import random
-import copy
 
 def startAndEndPoints(n):
     # select random starting point from the outer walls
