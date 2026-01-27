@@ -1,6 +1,15 @@
 import random
 import pygame
 
+CELL_SIZE = 20
+
+COLORS = {
+    1: (0, 0, 0),
+    0: (255, 255, 255),
+    2: (0, 255, 0),
+    3: (255, 0, 0),
+}
+
 def startAndEndPoints(n):
     # select random starting point from the outer walls
     edges = ["top", "bottom", "left", "right"]
@@ -200,7 +209,15 @@ def displayMaze(maze, player_position):
                     cells.append("b")
                 elif cell >= 7:
                     cells.append(f"{cell}")
-            print(" ".join(cells))   
+            print(" ".join(cells))
+            
+def drawMaze(screen, maze, player_position):
+    for y, row in enumerate(maze):
+        for x, cell in enumerate(row):
+            color = COLORS.get(cell, (255, 255, 255))
+            rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            pygame.draw.rect(screen, color, rect)
+    
 
 def isValidMove(maze, x, y):
     # checks if the move is valid
@@ -257,12 +274,29 @@ def main():
     # test if pygame works
     print(pygame.ver)
     pygame.init()
+    
     # make a random maze
     maze, starting_x, starting_y = makeMaze()
+    
+    # maze dimensions
     rows = len(maze)
     columns = len(maze[0])
-    screen = pygame.display.set_mode((columns * 20, rows * 20))
+    
+    # set up pygame window
+    screen = pygame.display.set_mode((columns * CELL_SIZE, rows * CELL_SIZE))
     pygame.display.set_caption("Maze Game")
+    
+    # main loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.fill((0, 0, 0))
+        drawMaze(screen, maze, (starting_x, starting_y))
+        pygame.display.flip()
+    
+    # we don't need the old playMaze or displayMaze function for pygame version
     # player_position = starting_x, starting_y
     # play the maze
     # playMaze(maze, player_position)
