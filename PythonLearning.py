@@ -4,10 +4,10 @@ import pygame
 CELL_SIZE = 20
 
 COLORS = {
-    1: (0, 0, 0),
-    0: (255, 255, 255),
-    2: (0, 255, 0),
-    3: (255, 0, 0),
+    1: (0, 0, 0), # Wall - Black
+    0: (255, 255, 255), # Path - White
+    2: (0, 255, 0), # Start - Green
+    3: (255, 0, 0), # End - Red
 }
 
 def startAndEndPoints(n):
@@ -218,6 +218,13 @@ def drawMaze(screen, maze, player_position):
             rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, color, rect)
     
+    # draw player
+    player_x, player_y = player_position
+    player_position_rect = pygame.draw.rect(
+        screen, 
+        (0, 0, 255), 
+        pygame.Rect(player_x * CELL_SIZE, player_y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+    ) 
 
 def isValidMove(maze, x, y):
     # checks if the move is valid
@@ -270,6 +277,26 @@ def playMaze(maze, player_position):
             print("You Found The Exit!")
             break
 
+def keyMovement(maze, player_position, keys):
+    player_position_x, player_position_y = player_position
+    dx, dy = 0, 0
+    if (keys[pygame.K_LEFT]):
+        dx = -1
+    elif (keys[pygame.K_RIGHT]):
+        dx = 1
+    elif (keys[pygame.K_UP]):
+        dy = -1
+    elif (keys[pygame.K_DOWN]):
+        dy = 1
+        
+    # valid move check
+    new_dx, new_dy = player_position_x + dx, player_position_y + dy
+    if isValidMove(maze, new_dx, new_dy):
+        return (new_dx, new_dy)
+    
+    return (player_position_x, player_position_y)
+    
+
 def main():
     # test if pygame works
     print(pygame.ver)
@@ -277,6 +304,7 @@ def main():
     
     # make a random maze
     maze, starting_x, starting_y = makeMaze()
+    player_position = (starting_x, starting_y)
     
     # maze dimensions
     rows = len(maze)
@@ -292,8 +320,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        
+        keys = pygame.key.get_pressed()
+        player_position = keyMovement(maze, player_position, keys)
+                
+        if maze[player_position[1]][player_position[0]] == 3:
+            print("You Found The Exit!")
+            running = False
+        
         screen.fill((0, 0, 0))
-        drawMaze(screen, maze, (starting_x, starting_y))
+        drawMaze(screen, maze, player_position)
         pygame.display.flip()
     
     # we don't need the old playMaze or displayMaze function for pygame version
