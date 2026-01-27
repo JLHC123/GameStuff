@@ -1,6 +1,5 @@
 import random
 import pygame
-print(pygame.ver)
 
 def startAndEndPoints(n):
     # select random starting point from the outer walls
@@ -255,12 +254,20 @@ def playMaze(maze, player_position):
             break
 
 def main():
-    print("Game Start")
+    # test if pygame works
+    print(pygame.ver)
+    pygame.init()
     # make a random maze
     maze, starting_x, starting_y = makeMaze()
-    player_position = starting_x, starting_y
+    rows = len(maze)
+    columns = len(maze[0])
+    screen = pygame.display.set_mode((columns * 20, rows * 20))
+    pygame.display.set_caption("Maze Game")
+    # player_position = starting_x, starting_y
     # play the maze
-    playMaze(maze, player_position)
+    # playMaze(maze, player_position)
+    # test to see if it would close when maze is done
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
