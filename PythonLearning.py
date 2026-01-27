@@ -1,4 +1,6 @@
 import random
+import pygame
+print(pygame.ver)
 
 def startAndEndPoints(n):
     # select random starting point from the outer walls
