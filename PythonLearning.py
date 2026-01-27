@@ -277,16 +277,16 @@ def playMaze(maze, player_position):
             print("You Found The Exit!")
             break
 
-def keyMovement(maze, player_position, keys):
+def keyMovement(maze, player_position, key):
     player_position_x, player_position_y = player_position
     dx, dy = 0, 0
-    if (keys[pygame.K_LEFT]):
+    if key == pygame.K_LEFT:
         dx = -1
-    elif (keys[pygame.K_RIGHT]):
+    elif key == pygame.K_RIGHT:
         dx = 1
-    elif (keys[pygame.K_UP]):
+    elif key == pygame.K_UP:
         dy = -1
-    elif (keys[pygame.K_DOWN]):
+    elif key == pygame.K_DOWN:
         dy = 1
         
     # valid move check
@@ -295,7 +295,6 @@ def keyMovement(maze, player_position, keys):
         return (new_dx, new_dy)
     
     return (player_position_x, player_position_y)
-    
 
 def main():
     # test if pygame works
@@ -320,10 +319,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            # to prevent blitz movement we only move one tile per key press
+            elif event.type == pygame.KEYDOWN:
+                player_position = keyMovement(maze, player_position, event.key)
         
-        keys = pygame.key.get_pressed()
-        player_position = keyMovement(maze, player_position, keys)
-                
+        # check if player reaches exit
         if maze[player_position[1]][player_position[0]] == 3:
             print("You Found The Exit!")
             running = False
