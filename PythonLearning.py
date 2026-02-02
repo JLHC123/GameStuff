@@ -236,21 +236,29 @@ def WinScreen(screen, n):
     # system font for win screen
     font = pygame.font.SysFont(None, 20)
     text1 = font.render("You Win!", True, (255, 255, 0))
-    text2 = font.render("Play Again?", True, (255, 255, 0))
-    screen.blit(text1, (0, 0))
-    screen.blit(text2, (0, 20))
+    text2 = font.render("Play Again? <", True, (255, 255, 0))
+    text3 = font.render("Exit Game", True, (255, 255, 0))
+    running = True
+    # while running:
+    #     screen.blit(text1, (0, 0))
+    #     screen.blit(text2, (0, 20))
+    #     screen.blit(text3, (0, 40))
+    #     pygame.display.flip()
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #         elif event.type == pygame.KEYDOWN:
+    #             if event.key == pygame.K_DOWN:
+    #                 text3 = font.render("Exit Game <", True, (255, 0, 0))
+    #             elif event.key == pygame.K_UP:
+    #                 text2 = font.render("Play Again? <", True, (255, 0, 0))
+    #             elif event.key == pygame.K_RETURN:
+    #                 if text2.get_text().endswith("<"):
+    #                     running = False
+    #                 elif text3.get_text().endswith("<"):
+    #                     pygame.quit()
 
-def main():
-    # test if pygame works
-    print(pygame.ver)
-    pygame.init()
-    
-    n = 20
-    
-    # set up pygame window
-    screen = pygame.display.set_mode((n * CELL_SIZE, n * CELL_SIZE))
-    pygame.display.set_caption("Maze Game")
-    
+def playing(screen, n):
     # make a random maze
     maze, starting_x, starting_y = makeMaze(n)
     player_position = (starting_x, starting_y)
@@ -280,6 +288,20 @@ def main():
             WinScreen(screen, n)
         # update display
         pygame.display.flip()
+    
+def main():
+    # test if pygame works
+    print(pygame.ver)
+    pygame.init()
+    
+    # originally from makeMaze function
+    n = 20
+    
+    # set up pygame window
+    screen = pygame.display.set_mode((n * CELL_SIZE, n * CELL_SIZE))
+    pygame.display.set_caption("Maze Game")
+    
+    playing(screen, n)
     pygame.quit()
 
 if __name__ == "__main__":
