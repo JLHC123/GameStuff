@@ -1,6 +1,9 @@
 import random
 import pygame
 
+PLAYING = "playing"
+WIN_SCREEN = "win_screen"
+
 CELL_SIZE = 20
 
 COLORS = {
@@ -229,6 +232,14 @@ def keyMovement(maze, player_position, key):
     
     return (player_position_x, player_position_y)
 
+def WinScreen(screen, n):
+    # system font for win screen
+    font = pygame.font.SysFont(None, 20)
+    text1 = font.render("You Win!", True, (255, 255, 0))
+    text2 = font.render("Play Again?", True, (255, 255, 0))
+    screen.blit(text1, (0, 0))
+    screen.blit(text2, (0, 20))
+
 def main():
     # test if pygame works
     print(pygame.ver)
@@ -244,10 +255,12 @@ def main():
     maze, starting_x, starting_y = makeMaze(n)
     player_position = (starting_x, starting_y)
     
+    game_state = PLAYING
     # main loop
     running = True
     while running:
         for event in pygame.event.get():
+            # if user closes window
             if event.type == pygame.QUIT:
                 running = False
             # to prevent blitz movement we only move one tile per key press
@@ -256,11 +269,16 @@ def main():
         
         # check if player reaches exit
         if maze[player_position[1]][player_position[0]] == 3:
-            print("You Found The Exit!")
-            running = False
+            game_state = WIN_SCREEN        
         
         screen.fill((0, 0, 0))
-        drawMaze(screen, maze, player_position)
+        # continue playing
+        if game_state == PLAYING:
+            drawMaze(screen, maze, player_position)
+        # display win screen
+        elif game_state == WIN_SCREEN:
+            WinScreen(screen, n)
+        # update display
         pygame.display.flip()
     pygame.quit()
 
