@@ -186,31 +186,6 @@ def randomPoint(maze, n):
         return randomPoint(maze, n)
     return (x, y)
 
-def displayMaze(maze, player_position):
-    # displays the maze
-    for y, row in enumerate(maze):
-            cells = []
-            for x, cell in enumerate(row):
-                if (x, y) == player_position:
-                    cells.append("P")
-                elif cell == 1:
-                    cells.append("#")
-                elif cell == 0:
-                    cells.append(".")
-                elif cell == 2:
-                    cells.append("S")
-                elif cell == 3:
-                    cells.append("E")
-                elif cell == 4:
-                    cells.append("I")
-                elif cell == 5:
-                    cells.append("B")
-                elif cell == 6:
-                    cells.append("b")
-                elif cell >= 7:
-                    cells.append(f"{cell}")
-            print(" ".join(cells))
-            
 def drawMaze(screen, maze, player_position):
     for y, row in enumerate(maze):
         for x, cell in enumerate(row):
@@ -235,47 +210,6 @@ def isValidMove(maze, x, y):
     if maze[y][x] == 1:
         return False
     return True
-
-def playMaze(maze, player_position):
-    player_position_x, player_position_y = player_position
-    isInput = True
-
-    while (isInput):
-        # display maze
-        displayMaze(maze, player_position)     
-        T = input().lower()
-        
-        # movement logic
-        dy, dx = 0, 0
-        if (T == "left"):
-            dx = -1
-        elif (T == "right"):
-            dx = 1
-        elif (T == "up"):
-            dy = -1
-        elif (T == "down"):
-            dy = 1
-
-        # valid move check
-        new_dx, new_dy = player_position_x + dx, player_position_y + dy
-        if not isValidMove(maze, new_dx, new_dy):
-            print("Invalid Move")
-            continue
-        
-        # check if player tries to return to start point
-        if maze[new_dy][new_dx] == 2:
-            print("You Can't Leave")
-            continue
-        
-        # position update
-        player_position_x += dx
-        player_position_y += dy
-        player_position = (player_position_x, player_position_y)
-        
-        # check if player reaches exits
-        if maze[player_position_y][player_position_x] == 3:
-            print("You Found The Exit!")
-            break
 
 def keyMovement(maze, player_position, key):
     player_position_x, player_position_y = player_position
@@ -331,12 +265,6 @@ def main():
         screen.fill((0, 0, 0))
         drawMaze(screen, maze, player_position)
         pygame.display.flip()
-    
-    # we don't need the old playMaze or displayMaze function for pygame version
-    # player_position = starting_x, starting_y
-    # play the maze
-    # playMaze(maze, player_position)
-    # test to see if it would close when maze is done
     pygame.quit()
 
 if __name__ == "__main__":
