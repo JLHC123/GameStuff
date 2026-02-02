@@ -105,8 +105,7 @@ def makeBendsInMaze(n, maze, starting_x, starting_y, ending_x, ending_y, n_point
     n_points += 1
     return makeBendsInMaze(n, maze, random_point_x, random_point_y, ending_x, ending_y, n_points)
     
-def makeMaze():
-    n = 20
+def makeMaze(n):
     maze = [[1] * n for _ in range(n)]
     
     # generate start and end points
@@ -235,17 +234,15 @@ def main():
     print(pygame.ver)
     pygame.init()
     
-    # make a random maze
-    maze, starting_x, starting_y = makeMaze()
-    player_position = (starting_x, starting_y)
-    
-    # maze dimensions
-    rows = len(maze)
-    columns = len(maze[0])
+    n = 20
     
     # set up pygame window
-    screen = pygame.display.set_mode((columns * CELL_SIZE, rows * CELL_SIZE))
+    screen = pygame.display.set_mode((n * CELL_SIZE, n * CELL_SIZE))
     pygame.display.set_caption("Maze Game")
+    
+    # make a random maze
+    maze, starting_x, starting_y = makeMaze(n)
+    player_position = (starting_x, starting_y)
     
     # main loop
     running = True
