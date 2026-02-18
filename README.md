@@ -1,1 +1,1 @@
-Basic maze game using PyGame
+Basic maze game generator using PyGame
